@@ -1,10 +1,18 @@
+inherit_from: ./.rubocop_todo.yml
+
 AllCops:
   Exclude:
     - 'Gemfile'
     - 'spec/spec_helper.rb'
 
+Documentation:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/LineLength:
+  Max: 120
 
 EndOfLine:
   Enabled: false
