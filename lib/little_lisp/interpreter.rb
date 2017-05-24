@@ -26,9 +26,15 @@ module Interpreter
     end
   end
 
+  def special_form?(input)
+    input.count > 0 &&
+    input[0].respond_to?(:value) &&
+    SPECIAL.key?(input[0].value)
+  end
+
   def interpret_list(input, context)
-    if input.count > 0 && SPECIAL.key?(input[0].value)
-      special[input[0]].call(input, context)
+    if special_form?(input)
+      SPECIAL[input[0].value].call(input, context)
     else
       list = input.map { |i| interpret(i, context) }
 
@@ -37,8 +43,6 @@ module Interpreter
       return list[0].call(*list[1..-1])
     end
   end
-
-  private
 
   def lisp_let(input, context)
     let_context = input[1].reduce(Context.new({}, context)) do |acc, x|
@@ -63,7 +67,9 @@ module Interpreter
   end
 
   def lisp_if(input, context)
-    if interpret(input[1], context)
+    condition = interpret(input[1], context)
+
+    if condition && condition != 0
       interpret(input[2], context)
     else
       interpret(input[3], context)

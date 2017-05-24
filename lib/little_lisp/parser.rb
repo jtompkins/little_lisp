@@ -2,16 +2,27 @@ Token = Struct.new(:type, :value)
 
 module Parser
   module_function
-  
+
   def parse(input)
     parenthesize(tokenize(input))
   end
 
+  def tokenize_whitespace(input, idx)
+    if idx % 2 == 0
+      input.gsub(/\(/, ' ( ')
+           .gsub(/\)/, ' ) ')
+    else
+      input.gsub(/ /, "!whitespace!")
+    end
+  end
+
   def tokenize(input)
     input
-      .gsub(/\(/, ' ( ')
-      .gsub(/\)/, ' ) ')
+      .split('"', -1)
+      .each_with_index.map { |x, idx| tokenize_whitespace(x, idx) }
+      .join('"')
       .split(' ')
+      .map { |x| x.gsub(/!whitespace!/, " ") }
   end
 
   def parenthesize(input, list = [])
