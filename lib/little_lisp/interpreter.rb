@@ -3,7 +3,7 @@ module LittleLisp
     LIBRARY = {
       'first' => ->(input) { input[0] },
       'rest' => ->(input) { input[1..-1] },
-      'print' => ->(input) do
+      'print' => lambda do |input|
         puts(input)
         input
       end
@@ -56,7 +56,7 @@ module LittleLisp
     end
 
     def lisp_lambda(input, context)
-      ->(*args) do
+      lambda do |*args|
         lambda_scope = input[1].each_with_index.reduce({}) do |acc, (x, i)|
           acc.tap do |scope|
             scope[x.value] = args[i]

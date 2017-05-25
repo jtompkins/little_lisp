@@ -15,7 +15,9 @@ describe LittleLisp::Interpreter do
         let(:script) { '("hi" "mary" "rose")' }
 
         it 'should return a list of strings' do
-          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(['hi', 'mary', 'rose'])
+          expected_result = %w(hi mary rose)
+
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(expected_result)
         end
       end
 
@@ -31,7 +33,9 @@ describe LittleLisp::Interpreter do
         let(:script) { '("1" "2" "3")' }
 
         it 'should return a list of numbers in strings as strings' do
-          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(['1', '2', '3'])
+          expected_result = %w(1 2 3)
+
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(expected_result)
         end
       end
     end

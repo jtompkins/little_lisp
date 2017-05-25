@@ -1,15 +1,21 @@
 #!/usr/bin/env ruby
 
 require 'little_lisp'
+require 'Trollop'
+require 'pry'
 
 opts = Trollop.options do
   version "v#{LittleLisp::VERSION}"
 
-  opt :source_file, 'Path to source file'
+  opt :source_file, 'Path to source file', type: :string
 end
 
-unless File.exist?(File.expand_path(opts[:source_file]))
-  Trollop.die :source_file, 'must exist'
-end
+file_name = File.expand_path(opts[:source_file])
 
-#ReadingList::App.new(opts[:config_file]).run
+Trollop.die :source_file, 'must exist' unless File.exist?(file_name)
+
+File.open(file_name) do |f|
+  tokens = LittleLisp::Parser.parse(f.read)
+
+  LittleLisp::Interpreter.interpret(tokens)
+end
