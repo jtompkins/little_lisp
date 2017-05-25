@@ -1,7 +1,4 @@
-# frozen_string_literal: true
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "rspec"
-gem "pry"
-gem "pry-byebug"
-gem "rubocop"
+# Specify your gem's dependencies in reading-list.gemspec
+gemspec

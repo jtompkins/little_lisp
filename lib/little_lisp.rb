@@ -1,3 +1,4 @@
+require 'little_lisp/version'
 require 'little_lisp/validator'
 require 'little_lisp/parser'
 require 'little_lisp/context'

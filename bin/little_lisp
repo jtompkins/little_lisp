@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'little_lisp'
+
+opts = Trollop.options do
+  version "v#{LittleLisp::VERSION}"
+
+  opt :source_file, 'Path to source file'
+end
+
+unless File.exist?(File.expand_path(opts[:source_file]))
+  Trollop.die :source_file, 'must exist'
+end
+
+#ReadingList::App.new(opts[:config_file]).run

@@ -1,4 +1,4 @@
-describe Validator do
+describe LittleLisp::Validator do
   describe '.number?' do
     let(:valid_integer) { '1' }
     let(:invalid_integer) { 'test' }
@@ -6,17 +6,17 @@ describe Validator do
 
     context 'when the input is a valid integer' do
       it 'returns true' do
-        expect(Validator.number?(valid_integer)).to eq(true)
+        expect(LittleLisp::Validator.number?(valid_integer)).to eq(true)
       end
 
       it 'handles negative integers' do
-        expect(Validator.number?(negative_integer)).to eq(true)
+        expect(LittleLisp::Validator.number?(negative_integer)).to eq(true)
       end
     end
 
     context 'when the input is not a valid integer' do
       it 'returns false' do
-        expect(Validator.number?(invalid_integer)).to eq(false)
+        expect(LittleLisp::Validator.number?(invalid_integer)).to eq(false)
       end
     end
   end
@@ -27,13 +27,13 @@ describe Validator do
 
     context 'when the input is wrapped in double quotes' do
       it 'returns true' do
-        expect(Validator.string?(valid_string)).to eq(true)
+        expect(LittleLisp::Validator.string?(valid_string)).to eq(true)
       end
     end
 
     context 'when the input is not wrapped in double quotes' do
       it 'returns false' do
-        expect(Validator.string?(invalid_string)).to eq(false)
+        expect(LittleLisp::Validator.string?(invalid_string)).to eq(false)
       end
     end
   end

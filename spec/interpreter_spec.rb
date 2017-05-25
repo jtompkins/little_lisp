@@ -1,13 +1,13 @@
-describe Interpreter do
+describe LittleLisp::Interpreter do
   describe '::interpret' do
-    let(:tokens) { Parser::parse(script) }
+    let(:tokens) { LittleLisp::Parser.parse(script) }
 
     describe 'lists' do
       context 'when the input is an empty list' do
         let(:script) { '()' }
 
         it 'should return an empty list' do
-          expect(Interpreter::interpret(tokens)).to eq([]);
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq([])
         end
       end
 
@@ -15,7 +15,7 @@ describe Interpreter do
         let(:script) { '("hi" "mary" "rose")' }
 
         it 'should return a list of strings' do
-          expect(Interpreter::interpret(tokens)).to eq(['hi', 'mary', 'rose'])
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(['hi', 'mary', 'rose'])
         end
       end
 
@@ -23,7 +23,7 @@ describe Interpreter do
         let(:script) { '(1 2 3)' }
 
         it 'should return a list of numbers' do
-          expect(Interpreter::interpret(tokens)).to eq([1, 2, 3])
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq([1, 2, 3])
         end
       end
 
@@ -31,7 +31,7 @@ describe Interpreter do
         let(:script) { '("1" "2" "3")' }
 
         it 'should return a list of numbers in strings as strings' do
-          expect(Interpreter::interpret(tokens)).to eq(["1", "2", "3"])
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(['1', '2', '3'])
         end
       end
     end
@@ -41,7 +41,7 @@ describe Interpreter do
         let(:script) { '"a"' }
 
         it 'should return string atom' do
-          expect(Interpreter::interpret(tokens)).to eq('a')
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq('a')
         end
       end
 
@@ -49,7 +49,7 @@ describe Interpreter do
         let(:script) { '"a b"' }
 
         it 'should return string with space atom' do
-          expect(Interpreter::interpret(tokens)).to eq('a b')
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq('a b')
         end
       end
 
@@ -57,7 +57,7 @@ describe Interpreter do
         let(:script) { '"(a"' }
 
         it 'should return string with opening paren' do
-          expect(Interpreter::interpret(tokens)).to eq('(a')
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq('(a')
         end
       end
 
@@ -65,7 +65,7 @@ describe Interpreter do
         let(:script) { '")a"' }
 
         it 'should return string with closing paren' do
-          expect(Interpreter::interpret(tokens)).to eq(')a')
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(')a')
         end
       end
 
@@ -73,7 +73,7 @@ describe Interpreter do
         let(:script) { '"(a)"' }
 
         it 'should return string with parens' do
-          expect(Interpreter::interpret(tokens)).to eq('(a)')
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq('(a)')
         end
       end
 
@@ -81,7 +81,7 @@ describe Interpreter do
         let(:script) { '123' }
 
         it 'should return number atom' do
-          expect(Interpreter::interpret(tokens)).to eq(123)
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(123)
         end
       end
     end
@@ -91,7 +91,7 @@ describe Interpreter do
         let(:script) { '(first (99 98))' }
 
         it 'selects the first item in the input list' do
-          expect(Interpreter::interpret(tokens)).to eq(99)
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(99)
         end
       end
 
@@ -99,7 +99,7 @@ describe Interpreter do
         let(:script) { '(rest (99 98 97))' }
 
         it 'selects all but the head of the input list' do
-          expect(Interpreter::interpret(tokens)).to eq([98, 97])
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq([98, 97])
         end
       end
 
@@ -109,7 +109,7 @@ describe Interpreter do
         it 'prints the input' do
           expect(STDOUT).to receive(:puts).with(1)
 
-          Interpreter::interpret(tokens)
+          LittleLisp::Interpreter.interpret(tokens)
         end
       end
     end
@@ -119,7 +119,7 @@ describe Interpreter do
         let(:script) { '(let ((x 1)) x)' }
 
         it 'binds the names correctly' do
-          expect(Interpreter::interpret(tokens)).to eq(1)
+          expect(LittleLisp::Interpreter.interpret(tokens)).to eq(1)
         end
       end
 
@@ -128,7 +128,7 @@ describe Interpreter do
           let(:script) { '((lambda () (rest (1 2))))' }
 
           it 'returns the correct result' do
-            expect(Interpreter::interpret(tokens)).to eq([2])
+            expect(LittleLisp::Interpreter.interpret(tokens)).to eq([2])
           end
         end
 
@@ -136,7 +136,7 @@ describe Interpreter do
           let(:script) { '((lambda (x) x) 1)' }
 
           it 'returns the correct result' do
-            expect(Interpreter::interpret(tokens)).to eq(1)
+            expect(LittleLisp::Interpreter.interpret(tokens)).to eq(1)
           end
         end
 
@@ -144,7 +144,7 @@ describe Interpreter do
           let(:script) { '((lambda (x y) (x y)) 1 2)' }
 
           it 'returns the correct result' do
-            expect(Interpreter::interpret(tokens)).to eq([1, 2])
+            expect(LittleLisp::Interpreter.interpret(tokens)).to eq([1, 2])
           end
         end
       end
@@ -154,7 +154,7 @@ describe Interpreter do
           let(:script) { '(if 1 42 4711)' }
 
           it 'executes the first atom' do
-            expect(Interpreter::interpret(tokens)).to eq(42)
+            expect(LittleLisp::Interpreter.interpret(tokens)).to eq(42)
           end
         end
 
@@ -162,7 +162,7 @@ describe Interpreter do
           let(:script) { '(if 0 42 4711)' }
 
           it 'executes the second atom' do
-            expect(Interpreter::interpret(tokens)).to eq(4711)
+            expect(LittleLisp::Interpreter.interpret(tokens)).to eq(4711)
           end
         end
       end
